@@ -1,0 +1,96 @@
+header {
+    background-color: #DFDABC;
+}
+
+header div {
+    display: flex;
+    justify-items: space-around;
+}
+
+header div p {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bold;
+    font-size: 43px;
+    align-self: center;
+    text-shadow: 2px 3px 2px #cccccc;
+}
+
+header div a {
+    align-self: center;
+    padding-left: 40px;
+}
+
+/* Heading Senate page */
+.congress113-h2 {
+    padding-top: 50px;
+    padding-left: 80px;
+    font-size: 40px;
+    color: #4C5939;
+}
+
+.homeh3 {
+    font-size: 30px;
+}
+
+
+
+div p {
+    width: 70%;
+    padding-left: 80px;
+    padding-top: 30px;
+}
+
+/* Bottom paragraphs in home page */
+
+.phome {
+    width: 80%;
+}
+
+
+/* Text + lT in home page */
+.flexcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.flexitem p {
+    width: 80%;
+}
+
+
+
+aside {
+    width: 30%;
+    margin-right: 150px;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    background-color: #DFDABC;
+}
+
+figure {
+    padding-top: 30px;
+}
+
+figure img {
+    border-radius: 50%;
+}
+
+
+
+
+/* Table Senate page */
+#senate-data {
+    width: 85%;
+    margin-left: 80px;
+    margin-top: 50px;
+}
+
+footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #9FA66F;
+}
