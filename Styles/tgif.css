@@ -20,10 +20,16 @@ header div a {
     padding-left: 40px;
 }
 
-/* Heading Senate page */
-.mb-0 {
+/* Headings */
+.mb-0,
+.congress113-h2 {
     font-size: 35px;
     color: #4C5939;
+}
+
+.congress113-h2 {
+    padding-top: 30px;
+    padding-left: 30px;
 }
 
 .homeh3 {
