@@ -1,116 +1,159 @@
 header {
-    background-color: #DFDABC;
+  background-color: #dfdabc;
 }
 
 header div {
-    display: flex;
-    justify-items: space-around;
+  display: flex;
+  justify-items: space-around;
 }
 
 header div p {
-    font-family: 'Wallpoet', cursive;
-    font-weight: bold;
-    font-size: 40px;
-    align-self: center;
-    text-shadow: 2px 3px 2px #cccccc;
+  font-family: "Wallpoet", cursive;
+  font-weight: bold;
+  font-size: 40px;
+  align-self: center;
+  text-shadow: 2px 3px 2px #cccccc;
 }
 
 header div a {
-    align-self: center;
-    padding-left: 40px;
+  align-self: center;
+  padding-left: 40px;
 }
 
 /* Headings */
 .mb-0,
 .congress113-h2 {
-    font-size: 35px;
-    color: #4C5939;
+  font-size: 35px;
+  color: #4c5939;
 }
 
 .congress113-h2 {
-    padding-top: 30px;
-    padding-left: 30px;
+  padding-top: 30px;
+  padding-left: 30px;
 }
 
 .homeh3 {
-    font-size: 30px;
+  font-size: 30px;
 }
 
-
-
 div p {
-    width: 90%;
-    padding-left: 80px;
-    padding-top: 30px;
+  width: 90%;
+  padding-left: 80px;
+  padding-top: 30px;
 }
 
 /* Bottom paragraphs in home page */
 
 .phome {
-    width: 80%;
+  width: 80%;
 }
-
 
 /* Text + lT in home page */
 .flexcontainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: baseline;
-    margin-top: 50px;
-    margin-left: 40px;
-
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: baseline;
+  margin-top: 50px;
+  margin-left: 40px;
 }
 
 .flexitem {
-    width: 70%;
-    justify-self: left;
+  width: 70%;
+  justify-self: left;
 }
 
 .flexitem2 {
-    width: 25%;
-    justify-self: right;
+  width: 25%;
+  justify-self: right;
 }
 
-
-
 aside {
-    margin-right: 120px;
-    padding-top: 30px;
-    padding-right: 40px;
-    padding-left: 30px;
-    padding-bottom: 20px;
-    background-color: #DFDABC;
+  margin-right: 120px;
+  padding-top: 30px;
+  padding-right: 40px;
+  padding-left: 30px;
+  padding-bottom: 20px;
+  background-color: #dfdabc;
 }
 
 figure {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 figure img {
-    border-radius: 50%;
+  border-radius: 50%;
 }
-
-
-
 
 /* Table Senate page */
 #senate-data {
-    width: 85%;
-    margin-left: 80px;
-    margin-top: 50px;
+  width: 85%;
+  margin-left: 80px;
+  margin-top: 50px;
 }
 
-tr>td>a {
-    text-decoration: none;
-    color: black;
+/* Attendance page */
+.flexcontainer-glance {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.flexitem-glance1 {
+  width: 60%;
+  padding-left: 30px;
+}
+
+.flexcontainer-glance h2,
+.flexcontainer-attendance h2 {
+  color: #4c5939;
+}
+
+.flexitem-glance1 p {
+  padding-left: 0px;
+}
+
+.flexitem-glance2 {
+  width: 40%;
+  align-self: center;
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+.flexitem-glance2 h2 {
+  text-align: center;
+}
+
+.flexcontainer-attendance {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+  justify-content: space-evenly;
+  padding-left: 30px;
+}
+
+.flexitem-lengaged,
+.flexitem-mengaged {
+  width: 50%;
+  padding-right: 30px;
+}
+
+.flexitem-lengaged h2,
+.flexitem-mengaged h2 {
+  font-size: 25px;
+  text-align: center;
+}
+
+tr > td > a {
+  text-decoration: none;
+  color: black;
 }
 
 footer {
-    margin-top: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    background-color: #9FA66F;
+  margin-top: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background-color: #9fa66f;
 }

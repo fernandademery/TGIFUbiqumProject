@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TGIF - Senate Attendance</title>
+    <title>TGIF - Senate Party Loyalty</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles/tgif.css" />
@@ -65,7 +65,7 @@
     </nav>
     <!--Table container-->
     <div>
-        <h2>Party Loyalty</h2>
+        <h2>Senate Party Loyalty</h2>
         <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively,
             tend to be the most faithful in voting for their party's nominee for office and legislation that backs their
             party's agenda. </p>
@@ -92,6 +92,9 @@
                     <td>Independent</td>
 
                 </tr>
+                <tr id="total-members">
+                    <td>Total</td>
+                </tr>
             </tbody>
         </table>
 
@@ -104,37 +107,8 @@
                     <th>% Party Votes</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
+            <tbody id="tbody-least-loyal">
+
             </tbody>
         </table>
 
@@ -147,42 +121,7 @@
                     <th>% Party Votes</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
+            <tbody id="tbody-most-loyal">
             </tbody>
         </table>
 
@@ -190,6 +129,7 @@
 
     <script src="pro-congress-113-senate.js"></script>
     <script src="statistics-tgif.js"></script>
+    <script src="statistics-partyloyalty-tgif.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
