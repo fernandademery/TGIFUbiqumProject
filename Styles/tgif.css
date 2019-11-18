@@ -93,6 +93,17 @@ figure img {
   margin-top: 50px;
 }
 
+/* Filters by party and state */
+.flexcontainer-filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+
+
+
+
 /* Attendance page */
 .flexcontainer-glance {
   display: flex;
@@ -145,7 +156,7 @@ figure img {
   text-align: center;
 }
 
-tr > td > a {
+tr>td>a {
   text-decoration: none;
   color: black;
 }
