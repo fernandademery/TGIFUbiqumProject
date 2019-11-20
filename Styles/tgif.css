@@ -98,6 +98,14 @@ figure img {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  width: 80%;
+  margin-top: 40px;
+
+}
+
+.flexitem-byparty>form>p,
+.flexitem-bystate>form>p {
+  display: inline;
 }
 
 
