@@ -1,11 +1,14 @@
 var data;
 var members;
+var spinner = document.getElementById("spinner");
+
 var apiLink;
 if (document.title.includes("Senate")) {
   apiLink = "https://api.propublica.org/congress/v1/113/senate/members.json"
 } else {
   apiLink = "https://api.propublica.org/congress/v1/113/house/members.json";
 }
+
 
 fetch(apiLink, {
   method: "GET",
@@ -15,12 +18,13 @@ fetch(apiLink, {
 }).then(function (response) {
   return response.json();
 }).then(function (json) {
+
   data = json;
   members = data.results[0].members;
   starter();
   myTable(members);
   createListStates(members);
-
+  spinner.style = "display:none";
 
 }).catch(function (error) {
   console.log(error);

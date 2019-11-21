@@ -1,5 +1,6 @@
 var data;
 var members;
+var spinner = document.getElementById("spinner");
 var apiLink;
 if (document.title.includes("Senate")) {
     apiLink = "https://api.propublica.org/congress/v1/113/senate/members.json"
@@ -19,9 +20,9 @@ fetch(apiLink, {
     members = data.results[0].members;
 
     numberMembers(members);
-    leastEngagedArray(members);
-    mostEngagedArray(members);
+    engagedArray(members);
     tables();
+    spinner.style = "display:none";
 
 
 
@@ -42,13 +43,15 @@ var leastEngaged = [];
 var mostEngaged = [];
 var missedVotesPct = [];
 
+
+
 function tables() {
     leastEngagedTable(leastEngaged);
     mostEngagedTable(mostEngaged);
 }
 
 function numberMembers(members) {
-    // Loop for finding number of Republicans and to sum the percentages of votes for each party.
+    // Loop for finding number of members and to sum the percentages of votes for each party.
     for (var i = 0; i < members.length; i++) {
         if (members[i].party == "R") {
             numberOfRepublicans++;
@@ -140,20 +143,34 @@ function numberMembers(members) {
 }
 
 // This function displays the 10 members that missed the most votes
-function leastEngagedArray(members) {
+function engagedArray(members) {
     var missedVotes = Array.from(members);
+    var mVotes = Array.from(members);
+    var pCorteVotes = Math.ceil(missedVotes.length * 0.1);
+    var pontoDeCorteVotes = Math.ceil(mVotes.length * 0.1);
     missedVotes.sort(function (a, b) {
         return b.missed_votes - a.missed_votes;
     });
 
-
     for (var i = 0; i < missedVotes.length; i++) {
-        if (missedVotes[i].missed_votes >= missedVotes[9].missed_votes) {
+        if (missedVotes[i].missed_votes >= missedVotes[pCorteVotes - 1].missed_votes) {
             leastEngaged.push(missedVotes[i]);
         }
     }
 
-    return leastEngaged;
+    mVotes.sort(function (a, b) {
+        return a.missed_votes - b.missed_votes;
+    });
+
+
+    for (var i = 0; i < mVotes.length; i++) {
+        if (mVotes[i].missed_votes <= mVotes[pontoDeCorteVotes - 1].missed_votes) {
+            mostEngaged.push(mVotes[i]);
+        }
+    }
+
+
+    return [leastEngaged, mostEngaged];
 }
 console.log(leastEngaged);
 
@@ -203,16 +220,19 @@ function leastEngagedTable() {
 
 
 
+
+
 // This function displays the 10 members that missed the most votes
-function mostEngagedArray(members) {
+/* function mostEngagedArray(members) {
     var missedVotes = Array.from(members);
+    var pCorteVotes = Math.ceil(missedVotes.length * 0.1);
     missedVotes.sort(function (a, b) {
         return a.missed_votes - b.missed_votes;
     });
 
 
     for (var i = 0; i < missedVotes.length; i++) {
-        if (missedVotes[i].missed_votes <= missedVotes[9].missed_votes) {
+        if (missedVotes[i].missed_votes <= missedVotes[pCorteVotes - 1].missed_votes) {
             mostEngaged.push(missedVotes[i]);
         }
     }
@@ -220,13 +240,15 @@ function mostEngagedArray(members) {
     return mostEngaged;
 }
 mostEngagedArray(mostEngaged);
-console.log(mostEngaged);
+console.log(mostEngaged);*/
 
 
 // Function to create the table with the MOST engaged members
 function mostEngagedTable(membersArr) {
+
     var tbody = document.getElementById("most-engaged-tbody");
     tbody.innerHTML = "";
+
 
     for (var i = 0; i < membersArr.length; i++) {
         var trMostEngaged = document.createElement("tr");

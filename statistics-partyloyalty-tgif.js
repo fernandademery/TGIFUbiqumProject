@@ -1,69 +1,113 @@
-var members = data.results[0].members;
-console.log(data.results[0].members);
+var data;
+var members;
+var apiLink;
+if (document.title.includes("Senate")) {
+    apiLink = "https://api.propublica.org/congress/v1/113/senate/members.json"
+} else {
+    apiLink = "https://api.propublica.org/congress/v1/113/house/members.json";
+}
 
-// Sorting the members array, based on the percentage of votes with party.
-var votesWithParty = [];
-var votesWithParty = Array.from(members);
-console.log(votesWithParty);
-var pontoDeCorte = Math.ceil(votesWithParty.length * 0.1);
-console.log(pontoDeCorte);
+fetch(apiLink, {
+    method: "GET",
+    headers: {
+        "X-API-key": "QldaOh304w8jLHRmPrvLMTPhVYauJuHGNKkSqKNb"
+    }
+}).then(function (response) {
+    return response.json();
+}).then(function (json) {
+    data = json;
+    members = data.results[0].members;
+
+    loyaltyArray(members);
+    tables();
+
+}).catch(function (error) {
+    console.log(error);
+});
+
+
+
+
 var leastLoyal = [];
 
 
 var mostLoyal = [];
 
-
-function leastLoyalArray(membersArray) {
-    membersArray.sort(function (a, b) {
-        return a.votes_with_party_pct - b.votes_with_party_pct;
-    });
-
-    for (var i = 0; i < membersArray.length; i++) {
-        if (membersArray[i].votes_with_party_pct <= membersArray[pontoDeCorte - 1].votes_with_party_pct) {
-            leastLoyal.push(membersArray[i]);
-        }
-    }
-
-    return leastLoyal;
+function tables() {
+    leastLoyalTable(leastLoyal);
+    mostLoyalTable(mostLoyal);
 }
 
 
-leastLoyalArray(votesWithParty);
+// Sorting the members array, based on the percentage of votes with party.
+function loyaltyArray(members) {
+    var votesWithParty = Array.from(members);
+    var pontoDeCorte = Math.ceil(votesWithParty.length * 0.1);
+
+    votesWithParty.sort(function (a, b) {
+        return a.votes_with_party_pct - b.votes_with_party_pct;
+    });
+
+    for (var i = 0; i < votesWithParty.length; i++) {
+        if (votesWithParty[i].votes_with_party_pct <= votesWithParty[pontoDeCorte - 1].votes_with_party_pct) {
+            leastLoyal.push(votesWithParty[i]);
+        }
+    }
+
+    var vWithParty = Array.from(members);
+    var pDeCorte = Math.ceil(vWithParty.length * 0.1);
+
+    vWithParty.sort(function (a, b) {
+        return b.votes_with_party_pct - a.votes_with_party_pct;
+    });
+
+    for (var i = 0; i < vWithParty.length; i++) {
+        if (vWithParty[i].votes_with_party_pct >= vWithParty[pDeCorte - 1].votes_with_party_pct) {
+            mostLoyal.push(vWithParty[i]);
+        }
+    }
+
+
+    return [leastLoyal, mostLoyal];
+}
+
+
+
 console.log(leastLoyal);
 
 // Function to create the table showing the 10% least loyal members.
 
-function leastLoyalTable(membersArray) {
+function leastLoyalTable() {
     var tbodyLeastLoyal = document.getElementById("tbody-least-loyal");
     tbodyLeastLoyal.innerHTML = "";
 
-    for (var i = 0; i < membersArray.length; i++) {
+    for (var i = 0; i < leastLoyal.length; i++) {
         var trLeastLoyal = document.createElement("tr");
 
         var nameLeastLoyal = document.createElement("td");
 
-        var nameLL = membersArray[i].last_name +
+        var nameLL = leastLoyal[i].last_name +
             " " +
-            membersArray[i].first_name +
+            leastLoyal[i].first_name +
             " " +
-            (membersArray[i].middle_name || "");
+            (leastLoyal[i].middle_name || "");
 
-        if (!membersArray[i].url) {
+        if (!leastLoyal[i].url) {
             nameLeastLoyal.textContent = nameLL
         } else {
             var nameLink = document.createElement("a");
             nameLink.textContent = nameLL;
-            nameLink.setAttribute("href", membersArray[i].url);
+            nameLink.setAttribute("href", leastLoyal[i].url);
             nameLink.setAttribute("target", "_blank");
 
             nameLeastLoyal.appendChild(nameLink);
         }
 
         var partyVotes = document.createElement("td");
-        partyVotes.textContent = membersArray[i].total_votes - membersArray[i].missed_votes;
+        partyVotes.textContent = leastLoyal[i].total_votes - leastLoyal[i].missed_votes;
 
         var partyVotesPct = document.createElement("td");
-        partyVotesPct.textContent = membersArray[i].votes_with_party_pct + "%";
+        partyVotesPct.textContent = leastLoyal[i].votes_with_party_pct + "%";
 
         tbodyLeastLoyal.appendChild(trLeastLoyal);
         trLeastLoyal.append(nameLeastLoyal, partyVotes, partyVotesPct);
@@ -71,27 +115,7 @@ function leastLoyalTable(membersArray) {
     }
 }
 
-leastLoyalTable(leastLoyal);
 
-
-// Sorting array from most loyal to least loyal
-function mostLoyalArray(membersArray) {
-    membersArray.sort(function (a, b) {
-        return b.votes_with_party_pct - a.votes_with_party_pct;
-    });
-
-    for (var i = 0; i < membersArray.length; i++) {
-        if (membersArray[i].votes_with_party_pct >= membersArray[pontoDeCorte - 1].votes_with_party_pct) {
-            mostLoyal.push(membersArray[i]);
-        }
-    }
-
-    return mostLoyal;
-}
-
-
-mostLoyalArray(votesWithParty);
-console.log(mostLoyal);
 
 
 // Function to create the table showing the 10% least loyal members.
