@@ -1,108 +1,112 @@
-var members = data.results[0].members;
-console.log(data.results[0].members);
+var data;
+var members;
+var apiLink;
+if (document.title.includes("Senate")) {
+  apiLink = "https://api.propublica.org/congress/v1/113/senate/members.json"
+} else {
+  apiLink = "https://api.propublica.org/congress/v1/113/house/members.json";
+}
+
+fetch(apiLink, {
+  method: "GET",
+  headers: {
+    "X-API-key": "QldaOh304w8jLHRmPrvLMTPhVYauJuHGNKkSqKNb"
+  }
+}).then(function (response) {
+  return response.json();
+}).then(function (json) {
+  data = json;
+  members = data.results[0].members;
+  starter();
+  myTable(members);
+  createListStates(members);
 
 
+}).catch(function (error) {
+  console.log(error);
+});
+
+
+
+// This function connects the event listeners with the fltering function)
+function starter() {
+  document
+    .getElementById("republican")
+    .addEventListener("change", function () {
+      filterPartyState(members);
+    });
+  document
+    .getElementById("democrat")
+    .addEventListener("change", function () {
+      filterPartyState(members);
+    });
+  document
+    .getElementById("independent")
+    .addEventListener("change", function () {
+      filterPartyState(members);
+    });
+  document
+    .getElementById("state-filter")
+    .addEventListener("change", function () {
+      filterPartyState(members);
+    });
+  filterPartyState(members);
+}
 
 // To format senate data as a table
-
-function myTable(senate) {
+function myTable(members) {
   var tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
-  for (var i = 0; i < senate.length; i++) {
+  for (var i = 0; i < members.length; i++) {
     var tr = document.createElement("tr");
 
     var name = document.createElement("td");
 
     var senatorName =
-      senate[i].last_name +
+      members[i].last_name +
       " " +
-      senate[i].first_name +
+      members[i].first_name +
       " " +
-      (senate[i].middle_name || "");
+      (members[i].middle_name || "");
 
-    if (!senate[i].url) {
+    if (!members[i].url) {
       name.textContent = senatorName;
     } else {
       var nameLink = document.createElement("a");
       nameLink.textContent = senatorName;
-      nameLink.setAttribute("href", senate[i].url);
+      nameLink.setAttribute("href", members[i].url);
       nameLink.setAttribute("target", "_blank");
 
       name.appendChild(nameLink);
     }
 
     var party = document.createElement("td");
-    party.textContent = senate[i].party;
+    party.textContent = members[i].party;
 
     var state = document.createElement("td");
-    state.textContent = senate[i].state;
+    state.textContent = members[i].state;
 
     var seniority = document.createElement("td");
-    seniority.textContent = senate[i].seniority;
+    seniority.textContent = members[i].seniority;
 
     var percVotes = document.createElement("td");
-    percVotes.textContent = senate[i].votes_with_party_pct;
+    percVotes.textContent = members[i].votes_with_party_pct;
 
     tr.append(name, party, state, seniority, percVotes); // these functions push the data into the HTML.
     tbody.appendChild(tr);
   }
 }
 
-myTable(members);
 
-// function to filter table by party
 
-document
-  .getElementById("republican")
-  .addEventListener("change", filterPartyState);
-document
-  .getElementById("democrat")
-  .addEventListener("change", filterPartyState);
-document
-  .getElementById("independent")
-  .addEventListener("change", filterPartyState);
-
-/*  The function bellow is intended to select House and Senate Members by party only. It's comented because 
-it was replaced by another function that filter by party AND state.
-
-function selectParty() {
-  var republican = document.getElementById("republican");
-  var democrat = document.getElementById("democrat");
-  var independent = document.getElementById("independent");
-
-  var selected = [];
-
-  for (let i = 0; i < members.length; i++) {
-    if (republican.checked && members[i].party == "R") {
-      selected.push(members[i]);
-    }
-    if (democrat.checked && members[i].party == "D") {
-      selected.push(members[i]);
-    }
-    if (independent.checked && members[i].party == "I") {
-      selected.push(members[i]);
-    } else if (
-      republican.checked == false &&
-      democrat.checked == false &&
-      independent.checked == false
-    ) {
-      myTable(members);
-    } else {
-      myTable(selected);
-    }
-  }
-} 
-
-*/
 
 // To create list with states in html.
 
-var listStates = [];
-
-function createListStates(membersArray) {
-  for (var i = 0; i < membersArray.length; i++) {
-    if (!listStates.includes(membersArray[i].state)) {
-      listStates.push(membersArray[i].state);
+function createListStates(members) {
+  var listStates = [];
+  for (var i = 0; i < members.length; i++) {
+    if (!listStates.includes(members[i].state)) {
+      listStates.push(members[i].state);
     }
   }
   listStates.sort();
@@ -113,57 +117,16 @@ function createListStates(membersArray) {
     document.getElementById("state-filter").append(option);
   }
 }
-createListStates(members);
 
-// Filter by State
-document
-  .getElementById("state-filter")
-  .addEventListener("change", filterPartyState);
+//To filter the members by party and state 
+function filterPartyState(members) {
 
-/* 
-This function filters the members by state. It's comented because it was replaced by a function that 
-filters the members by party AND state.
-
-function filterState(membersArr) {
-  var selectedStates = [];
-  membersArr = members;
-
-  var state = document.getElementById("state-filter").value;
-  console.log(state);
-
-  if (state == "all") {
-    myTable(members);
-  } else {
-
-    for (var i = 0; i < membersArr.length; i++) {
-
-      if (state == membersArr[i].state) {
-        selectedStates.push(membersArr[i]);
-
-      }
-
-
-
-
-    }
-
-    console.log(selectedStates);
-    myTable(selectedStates)
-  }
-}
-
-
-filterState(members); 
-*/
-
-function filterPartyState(allMembers) {
-  allMembers = members;
   var republican = document.getElementById("republican");
   var democrat = document.getElementById("democrat");
   var independent = document.getElementById("independent");
   var state = document.getElementById("state-filter").value;
 
-  var selected = [];
+  const selected = [];
 
   if (
     republican.checked == false &&
@@ -173,47 +136,47 @@ function filterPartyState(allMembers) {
   ) {
     myTable(members);
   } else {
-    for (var i = 0; i < allMembers.length; i++) {
-      if (republican.checked && allMembers[i].party == "R" && state == "all") {
-        selected.push(allMembers[i]);
+    for (var i = 0; i < members.length; i++) {
+      if (republican.checked && members[i].party == "R" && state == "all") {
+        selected.push(members[i]);
       }
-      if (democrat.checked && allMembers[i].party == "D" && state == "all") {
-        selected.push(allMembers[i]);
+      if (democrat.checked && members[i].party == "D" && state == "all") {
+        selected.push(members[i]);
       }
-      if (independent.checked && allMembers[i].party == "I" && state == "all") {
-        selected.push(allMembers[i]);
+      if (independent.checked && members[i].party == "I" && state == "all") {
+        selected.push(members[i]);
       }
       if (
         republican.checked == false &&
         democrat.checked == false &&
         independent.checked == false &&
-        state == allMembers[i].state
+        state == members[i].state
       ) {
-        selected.push(allMembers[i]);
+        selected.push(members[i]);
       }
       if (
         republican.checked &&
-        allMembers[i].party == "R" &&
-        state == allMembers[i].state
+        members[i].party == "R" &&
+        state == members[i].state
       ) {
-        selected.push(allMembers[i]);
+        selected.push(members[i]);
       }
       if (
         democrat.checked &&
-        allMembers[i].party == "D" &&
-        state == allMembers[i].state
+        members[i].party == "D" &&
+        state == members[i].state
       ) {
-        selected.push(allMembers[i]);
+        selected.push(members[i]);
       }
       if (
         independent.checked &&
-        allMembers[i].party == "I" &&
-        state == allMembers[i].state
+        members[i].party == "I" &&
+        state == members[i].state
       ) {
-        selected.push(allMembers[i]);
+        selected.push(members[i]);
       }
     }
 
-    return myTable(selected);
+    myTable(selected);
   }
 }
