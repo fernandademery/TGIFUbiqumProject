@@ -1,36 +1,3 @@
-var data;
-var members;
-var spinner = document.getElementById("spinner");
-var apiLink;
-if (document.title.includes("Senate")) {
-    apiLink = "https://api.propublica.org/congress/v1/113/senate/members.json"
-} else {
-    apiLink = "https://api.propublica.org/congress/v1/113/house/members.json";
-}
-
-fetch(apiLink, {
-    method: "GET",
-    headers: {
-        "X-API-key": "QldaOh304w8jLHRmPrvLMTPhVYauJuHGNKkSqKNb"
-    }
-}).then(function (response) {
-    return response.json();
-}).then(function (json) {
-    data = json;
-    members = data.results[0].members;
-
-    numberMembers(members);
-    engagedArray(members);
-    tables();
-    spinner.style = "display:none";
-
-
-
-}).catch(function (error) {
-    console.log(error);
-});
-
-
 var numberOfDemocrats = 0;
 var democratsVotes = 0;
 var numberOfRepublicans = 0;
@@ -38,17 +5,28 @@ var republicansVotes = 0;
 var numberOfIndependents = 0;
 var independentsVotes = 0;
 
-
 var leastEngaged = [];
 var mostEngaged = [];
 var missedVotesPct = [];
 
+var leastLoyal = [];
+var mostLoyal = [];
+
+
 
 
 function tables() {
-    leastEngagedTable(leastEngaged);
-    mostEngagedTable(mostEngaged);
+    if (document.title.includes("Attendance")) {
+        engagedArray(members);
+        engagedTable(leastEngaged, "least-engaged-tbody");
+        engagedTable(mostEngaged, "most-engaged-tbody");
+    } else {
+        loyaltyArray(members);
+        loyalTable(leastLoyal, "tbody-least-loyal");
+        loyalTable(mostLoyal, "tbody-most-loyal");
+    }
 }
+
 
 function numberMembers(members) {
     // Loop for finding number of members and to sum the percentages of votes for each party.
@@ -142,7 +120,9 @@ function numberMembers(members) {
     trTot.appendChild(totalPctTd);
 }
 
-// This function displays the 10 members that missed the most votes
+
+
+// This function displays the 10% of members that missed the most and least votes 
 function engagedArray(members) {
     var missedVotes = Array.from(members);
     var mVotes = Array.from(members);
@@ -175,78 +155,10 @@ function engagedArray(members) {
 console.log(leastEngaged);
 
 
+// Function to create the table with the MOST ans LEAST engaged members
+function engagedTable(membersArr, id) {
 
-
-// Function to create the table with the least engaged members
-function leastEngagedTable() {
-    var tbody = document.getElementById("least-engaged-tbody");
-    tbody.innerHTML = "";
-
-    for (var i = 0; i < leastEngaged.length; i++) {
-        var trLeastEngaged = document.createElement("tr");
-
-        var nameLeastEngaged = document.createElement("td");
-
-        var nameLE = leastEngaged[i].last_name +
-            " " +
-            leastEngaged[i].first_name +
-            " " +
-            (leastEngaged[i].middle_name || "");
-
-        if (!leastEngaged[i].url) {
-            nameLeastEngaged.textContent = nameLE
-        } else {
-            var nameLink = document.createElement("a");
-            nameLink.textContent = nameLE;
-            nameLink.setAttribute("href", leastEngaged[i].url);
-            nameLink.setAttribute("target", "_blank");
-
-            nameLeastEngaged.appendChild(nameLink);
-        }
-
-        var missedVotesNr = document.createElement("td");
-        missedVotesNr.textContent = leastEngaged[i].missed_votes;
-
-        var missedVotesPct = document.createElement("td");
-        missedVotesPct.textContent = leastEngaged[i].missed_votes_pct + "%";
-
-        trLeastEngaged.append(nameLeastEngaged, missedVotesNr, missedVotesPct);
-        tbody.appendChild(trLeastEngaged);
-
-
-    }
-}
-
-
-
-
-
-
-// This function displays the 10 members that missed the most votes
-/* function mostEngagedArray(members) {
-    var missedVotes = Array.from(members);
-    var pCorteVotes = Math.ceil(missedVotes.length * 0.1);
-    missedVotes.sort(function (a, b) {
-        return a.missed_votes - b.missed_votes;
-    });
-
-
-    for (var i = 0; i < missedVotes.length; i++) {
-        if (missedVotes[i].missed_votes <= missedVotes[pCorteVotes - 1].missed_votes) {
-            mostEngaged.push(missedVotes[i]);
-        }
-    }
-
-    return mostEngaged;
-}
-mostEngagedArray(mostEngaged);
-console.log(mostEngaged);*/
-
-
-// Function to create the table with the MOST engaged members
-function mostEngagedTable(membersArr) {
-
-    var tbody = document.getElementById("most-engaged-tbody");
+    var tbody = document.getElementById(id);
     tbody.innerHTML = "";
 
 
@@ -282,5 +194,82 @@ function mostEngagedTable(membersArr) {
         tbody.appendChild(trMostEngaged);
 
 
+    }
+}
+
+
+// Function to generate 10% most loyal and least loyal arrays.
+function loyaltyArray(members) {
+    var votesWithParty = Array.from(members);
+    var pontoDeCorte = Math.ceil(votesWithParty.length * 0.1);
+
+    votesWithParty.sort(function (a, b) {
+        return a.votes_with_party_pct - b.votes_with_party_pct;
+    });
+
+    for (var i = 0; i < votesWithParty.length; i++) {
+        if (
+            votesWithParty[i].votes_with_party_pct <=
+            votesWithParty[pontoDeCorte - 1].votes_with_party_pct
+        ) {
+            leastLoyal.push(votesWithParty[i]);
+        }
+    }
+
+    var vWithParty = Array.from(members);
+    var pDeCorte = Math.ceil(vWithParty.length * 0.1);
+
+    vWithParty.sort(function (a, b) {
+        return b.votes_with_party_pct - a.votes_with_party_pct;
+    });
+
+    for (var i = 0; i < vWithParty.length; i++) {
+        if (
+            vWithParty[i].votes_with_party_pct >=
+            vWithParty[pDeCorte - 1].votes_with_party_pct
+        ) {
+            mostLoyal.push(vWithParty[i]);
+        }
+    }
+
+    return [leastLoyal, mostLoyal];
+}
+
+function loyalTable(membersArray, id) {
+    var tbodyMostLoyal = document.getElementById(id);
+    tbodyMostLoyal.innerHTML = "";
+
+    for (var i = 0; i < membersArray.length; i++) {
+        var trMostLoyal = document.createElement("tr");
+
+        var nameMostLoyal = document.createElement("td");
+
+        var nameML =
+            membersArray[i].last_name +
+            " " +
+            membersArray[i].first_name +
+            " " +
+            (membersArray[i].middle_name || "");
+
+        if (!membersArray[i].url) {
+            nameMostLoyal.textContent = nameML;
+        } else {
+            var nameLink = document.createElement("a");
+            nameLink.textContent = nameML;
+            nameLink.setAttribute("href", membersArray[i].url);
+            nameLink.setAttribute("target", "_blank");
+
+            nameMostLoyal.appendChild(nameLink);
+        }
+
+        var partyVotes = document.createElement("td");
+        partyVotes.textContent =
+            membersArray[i].total_votes - membersArray[i].missed_votes;
+
+        var partyVotesPct = document.createElement("td");
+        partyVotesPct.textContent = membersArray[i].votes_with_party_pct + "%";
+
+        tbodyMostLoyal.appendChild(trMostLoyal);
+        trMostLoyal.append(nameMostLoyal, partyVotes, partyVotesPct);
     }
 }

@@ -21,10 +21,16 @@ fetch(apiLink, {
 
   data = json;
   members = data.results[0].members;
-  starter();
-  myTable(members);
-  createListStates(members);
   spinner.style = "display:none";
+  if (document.title.includes("Data")) {
+    starter();
+    myTable(members);
+    createListStates(members);
+  } else {
+    numberMembers(members);
+    tables();
+  }
+
 
 }).catch(function (error) {
   console.log(error);
