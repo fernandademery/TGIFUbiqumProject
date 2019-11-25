@@ -100,19 +100,14 @@ figure img {
   justify-content: space-evenly;
   width: 80%;
   margin-top: 40px;
-
 }
 
-.flexitem-byparty>form>p,
-.flexitem-bystate>form>p {
+.flexitem-byparty > form > p,
+.flexitem-bystate > form > p {
   display: inline;
 }
 
-
-
-
-
-/* Attendance page */
+/* Attendance and Loyalty pages */
 .flexcontainer-glance {
   display: flex;
   flex-direction: row;
@@ -164,7 +159,7 @@ figure img {
   text-align: center;
 }
 
-tr>td>a {
+tr > td > a {
   text-decoration: none;
   color: black;
 }
@@ -176,7 +171,6 @@ footer {
   text-align: center;
   background-color: #9fa66f;
 }
-
 
 /* Loader */
 #spinner {
@@ -206,8 +200,4 @@ footer {
   to {
     transform: rotate(360deg);
   }
-}
-
-#spinner.show {
-  visibility: visible;
 }
