@@ -102,8 +102,8 @@ figure img {
   margin-top: 40px;
 }
 
-.flexitem-byparty > form > p,
-.flexitem-bystate > form > p {
+.flexitem-byparty>form>p,
+.flexitem-bystate>form>p {
   display: inline;
 }
 
@@ -159,7 +159,7 @@ figure img {
   text-align: center;
 }
 
-tr > td > a {
+tr>td>a {
   text-decoration: none;
   color: black;
 }
